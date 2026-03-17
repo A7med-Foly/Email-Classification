@@ -90,6 +90,18 @@ streamlit run app.py
 | 📊 **Dataset Explorer** | Pie chart, length distributions, top spam words |
 | 🤖 **Model Insights** | F1 bar chart, radar chart, pipeline steps walkthrough |
 
+### 🖼️ Dashboard Screenshots
+
+![Classifier view](assets/dash.png)
+*Classifier page: text input, prediction result.*
+
+![Dataset explorer view](assets/data-explorer.png)
+*Dataset explorer page: spam/ham distribution and word frequency plots.*
+
+![Model insights view](assets/model-1.png)
+![Model insights view](assets/model-2.png)
+*Model insights page: performance comparison metrics and charts.*
+
 ---
 
 ## 🧪 Tests
