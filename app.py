@@ -263,16 +263,19 @@ elif page == "📊 Dataset Explorer":
     st.markdown("")
 
     # KPI row
-    spam_df = df[df.label=="spam"]
-    ham_df  = df[df.label=="ham"]
-    df["length"] = df["text"].str.len()
+    spam_df      = df[df.label=="spam"]
+    ham_df       = df[df.label=="ham"]
+    spam_avg_len = spam_df["text"].str.len().mean()
+    ham_avg_len  = ham_df["text"].str.len().mean()
+    df_with_len  = df.copy()
+    df_with_len["length"] = df_with_len["text"].str.len()
 
     k1,k2,k3,k4 = st.columns(4)
     for col, label, value, sub in [
-        (k1, "Total Messages",  f"{len(df):,}",               "in dataset"),
-        (k2, "Spam Messages",   f"{len(spam_df):,}",          f"{len(spam_df)/len(df):.1%} of total"),
-        (k3, "Avg Spam Length", f"{spam_df.length.mean():.0f} chars", "per message"),
-        (k4, "Avg Ham Length",  f"{ham_df.length.mean():.0f} chars",  "per message"),
+        (k1, "Total Messages",  f"{len(df):,}",              "in dataset"),
+        (k2, "Spam Messages",   f"{len(spam_df):,}",         f"{len(spam_df)/len(df):.1%} of total"),
+        (k3, "Avg Spam Length", f"{spam_avg_len:.0f} chars", "per message"),
+        (k4, "Avg Ham Length",  f"{ham_avg_len:.0f} chars",  "per message"),
     ]:
         col.markdown(f"""
         <div class="card" style="text-align:center">
@@ -295,7 +298,7 @@ elif page == "📊 Dataset Explorer":
 
     with r2:
         st.markdown('<div class="section-title">Message Length Distribution</div>', unsafe_allow_html=True)
-        fig = px.histogram(df, x="length", color="label",
+        fig = px.histogram(df_with_len, x="length", color="label",
                            color_discrete_map={"spam":"#ef4444","ham":"#10b981"},
                            barmode="overlay", nbins=60, opacity=0.75)
         fig.update_layout(**PL, height=280, xaxis_title="Characters", yaxis_title="Count")
@@ -304,7 +307,7 @@ elif page == "📊 Dataset Explorer":
     r2a, r2b = st.columns(2, gap="medium")
     with r2a:
         st.markdown('<div class="section-title">Message Length by Label</div>', unsafe_allow_html=True)
-        fig = px.box(df, x="label", y="length", color="label",
+        fig = px.box(df_with_len, x="label", y="length", color="label",
                      color_discrete_map={"spam":"#ef4444","ham":"#10b981"})
         fig.update_layout(**PL, height=280, showlegend=False,
                           xaxis_title="Label", yaxis_title="Length (chars)")
