@@ -104,15 +104,6 @@ streamlit run app.py
 
 ---
 
-## 🧪 Tests
-
-```bash
-python tests/test_pipeline.py
-```
-9 smoke tests covering the full pipeline. Also run automatically via GitHub Actions CI.
-
----
-
 ## 🔧 Configuration
 
 Edit `config.py` to change:
